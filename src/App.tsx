@@ -9,7 +9,6 @@ import { Main } from './components/main';
 import { Error } from './components/error';
 import { getTodos } from './api/todos';
 import { User } from './types/User';
-// import { Todo } from './types/Todo';
 
 export const App: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -17,11 +16,7 @@ export const App: React.FC = () => {
   const [data, setData] = useState([]);
   const [query, setQuery] = useState('');
   const newTodoField = useRef<HTMLInputElement>(null);
-  const [error] = useState(false);
-
-  // console.log(data);
-  // console.log(user);
-  // console.log(user.id);
+  const [error, setError] = useState(false);
 
   const fetchTodos = async () => {
     if (user) {
@@ -40,10 +35,6 @@ export const App: React.FC = () => {
     fetchTodos();
   }, []);
 
-  // const handleChange = (event: any) => {
-  //   setQuery(event.target.value);
-  // };
-
   return (
     <div className="todoapp">
       <h1 className="todoapp__title">todos</h1>
@@ -51,24 +42,27 @@ export const App: React.FC = () => {
       <div className="todoapp__content">
         <Header
           query={query}
-          // handleChange={handleChange}
           newTodoField={newTodoField}
           setData={setData}
           data={data}
           setQuery={setQuery}
-          // handleSubmit={handleSubmit}
+          setError={setError}
+          // createTodo={createTodo}
         />
         {data && (
-          <Main data={data} />
+          <Main
+            data={data}
+            setData={setData}
+          />
         )}
 
         {data && (
-          <Footer />
+          <Footer setData={setData} />
         )}
 
       </div>
       {error && (
-        <Error query={query} />
+        <Error error={error} />
       )}
 
     </div>
